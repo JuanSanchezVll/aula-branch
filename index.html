@@ -8,21 +8,27 @@
 </head>
 
 <body>
+
+    <h2>Cadastro de notas da Prof. Alice</h2>
+
     Informe o nome do Aluno: <input id="ipt_nomeAluno"><br>
-    Informe a 1° nota do aluno: <input id="iptNota1"><br>
-    Informe a 2° nota do aluno: <input id="iptNota2"><br>
-    Informe a 3° nota do aluno: <input id="iptNota3"><br>
+    Informe a 1° nota do aluno: <input id="iptNota1" type="number"><br>
+    Informe a 2° nota do aluno: <input id="iptNota2" type="number"><br>
+    Informe a 3° nota do aluno: <input id="iptNota3" type="number"><br><br>
     Informe a meneira de listagem <select id="selLista">
         <option value="#"></option>
         <option value="1">Listagem de trás pra frente</option>
         <option value="2">Listagem de frente pra trás</option>
     </select><br>
+
+    <h2>Botões</h2>
     <button onclick="listar()">Listar</button>
     <button onclick="aluno()">Aluno</button>
     <button onclick="cadastrar()">Cadastrar</button>
     <button onclick="media()">Média</button>
-    <button onclick="notas()">Notas**</button>
+    <button onclick="notas()">Notas**</button><br><br>
     <div id="div_msg"></div>
+
 </body>
 
 </html>
