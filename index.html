@@ -8,43 +8,54 @@
 </head>
 
 <body>
-    Informe o nome do Aluno: <input id="iptNome"><br>
-    Informe a 1° nota do aluno: <input id="iptNota1"><br>
-    Informe a 2° nota do aluno: <input id="iptNota2"><br>
-    Informe a 3° nota do aluno: <input id="iptNota3"><br>
+
+    <h2>Cadastro de notas da Prof. Alice</h2>
+
+    Informe o nome do Aluno: <input id="ipt_nomeAluno"><br>
+    Informe a 1° nota do aluno: <input id="iptNota1" type="number"><br>
+    Informe a 2° nota do aluno: <input id="iptNota2" type="number"><br>
+    Informe a 3° nota do aluno: <input id="iptNota3" type="number"><br><br>
     Informe a meneira de listagem <select id="selLista">
         <option value="#"></option>
         <option value="1">Listagem de trás pra frente</option>
         <option value="2">Listagem de frente pra trás</option>
     </select><br>
+
+    <h2>Botões</h2>
     <button onclick="listar()">Listar</button>
     <button onclick="aluno()">Aluno</button>
     <button onclick="cadastrar()">Cadastrar</button>
     <button onclick="media()">Média</button>
-    <button onclick="notas()">Notas**</button>
-    <div id="div"></div>
+    <button onclick="notas()">Notas**</button><br><br>
+    <div id="div_msg"></div>
+
 </body>
 
 </html>
 <script>
 
 
-
-
-   var vt_nome_de_aluno = [];
-    var vt_nota1 = [];
-    var vt_nota2 = [];
-    var vt_nota3 = [];
-
     // FUNÇÃO DO JUAN
+
+    var var_nome_aluno = {
+        "nome": ``,
+        "nota1": `0`,
+        "nota2": `0`,
+        "nota3": `0`,
+    }
+
+    var lista = []
+
+    // var listaALUNO = []
+    // listaALUNO.push(var_nome_aluno)
 
     function cadastrar() {
 
 
         var nomeAluno = ipt_nomeAluno.value;
-        var nota1 = Number(ipt_nota1.value);
-        var nota2 = Number(ipt_nota2.value);
-        var nota3 = Number(ipt_nota3.value);
+        var nota1 = Number(iptNota1.value);
+        var nota2 = Number(iptNota2.value);
+        var nota3 = Number(iptNota3.value);
 
         var mensagem = '';
 
@@ -52,15 +63,15 @@
             mensagem += `O campo nome do aluno não pode ser vazio e deve conter ao menos 9 caracteres<br>`
         }
 
-        if (!(ipt_nota1.value >= 0)) {
+        if (!(iptNota1.value >= 0)) {
             mensagem += `O campo nota 1 aceita somente valores numéricos e maior ou igual a zero<br>`
         }
 
-        if (!(ipt_nota2.value >= 0)) {
+        if (!(iptNota2.value >= 0)) {
             mensagem += `O campo nota 2 aceita somente valores numéricos e maior ou igual a zero<br>`
         }
 
-        if (!(ipt_nota3.value >= 0)) {
+        if (!(iptNota3.value >= 0)) {
             mensagem += `O campo nota 3 aceita somente valores numéricos e maior ou igual a zero<br>`
         }
 
@@ -72,8 +83,8 @@
 
             var achou = false;
 
-            for (var i = 0; i < vt_nome_de_aluno.length; i++) {
-                if (vt_nome_de_aluno[i] == nomeAluno) {
+            for (var i = 0; i < lista.length; i++) {
+                if (lista[i].nome == nomeAluno) {
                     achou = true;
                     alert('Já existe um aluno com este Cadastro!')
                     break;
@@ -82,10 +93,15 @@
             }
 
             if (achou == false) {
-                vt_nome_de_aluno.push(ipt_nomeAluno.value);
-                vt_nota1.push(ipt_nota1.value);
-                vt_nota2.push(ipt_nota2.value);
-                vt_nota3.push(ipt_nota3.value);
+
+                var_nome_aluno = {
+                    "nome": `${nomeAluno}`,
+                    "nota1": `${nota1}`,
+                    "nota2": `${nota2}`,
+                    "nota3": `${nota3}`,
+                }
+
+                lista.push(var_nome_aluno)
 
                 alert('Aluno novo Cadastrado!')
 
@@ -123,23 +139,44 @@
         }
     }
     function aluno() {
-        div.innerHTML = ''
-        var pesquisa = prompt("Informe o nome do Aluno para pesquisa")
-        var j;
+        div_msg.innerHTML = '';
 
-        for (let index = 0; index < nomeV.length; index++) {
-            if (pesquisa.includes(nomeV)) {
-                div.innerHTML = `
-                Registros do Aluno:${pesquisa} <br>
-                Nome: ${pesquisa.value} <br>
-                Nota 1: ${nota1[index]} <br>
-                Nota 2: ${nota2[index]} <br>
-                Nota 3: ${nota3[index]} <br>
-                `
+        if (lista.length == 0) {
+            alert("Nenhum aluno cadastrado ainda!");
+            return;
+        }
+
+        var pesquisa = prompt("Informe o nome completo do Aluno para pesquisa:");
+
+        if (!pesquisa) {
+            div_msg.innerHTML = `Pesquisa cancelada.`;
+            return;
+        }
+
+        var alunoEncontrado = null;
+
+            for (var i = 0; i < lista.length; i++) {
+            if (lista[i].nome.toLowerCase().includes(pesquisa.toLowerCase())) {
+                alunoEncontrado = lista[i];
+                break;
             }
+        }
 
+        if (alunoEncontrado) {
+            var mediaFinal = (Number(alunoEncontrado.nota1) + Number(alunoEncontrado.nota2) + Number(alunoEncontrado.nota3)) / 3;
+
+            div_msg.innerHTML = `
+                <h3>Registro do Aluno: ${alunoEncontrado.nome}</h3>
+                <ul>
+                    <li>Nome: ${alunoEncontrado.nome}</li>
+                    <li>Nota 1: ${alunoEncontrado.nota1}</li>
+                    <li>Nota 2: ${alunoEncontrado.nota2}</li>
+                    <li>Nota 3: ${alunoEncontrado.nota3}</li>
+                    <li>Média Final: ${mediaFinal.toFixed(2)}</li>
+                </ul>
+            `;
+        } else {
+            div_msg.innerHTML = `Aluno "${pesquisa}" não encontrado nos registros.`;
         }
     }
-
-
 </script>
