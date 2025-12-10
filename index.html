@@ -139,23 +139,44 @@
         }
     }
     function aluno() {
-        div.innerHTML = ''
-        var pesquisa = prompt("Informe o nome do Aluno para pesquisa")
-        var j;
+        div_msg.innerHTML = '';
 
-        for (let index = 0; index < nomeV.length; index++) {
-            if (pesquisa.includes(nomeV)) {
-                div.innerHTML = `
-                Registros do Aluno:${pesquisa} <br>
-                Nome: ${pesquisa.value} <br>
-                Nota 1: ${nota1[index]} <br>
-                Nota 2: ${nota2[index]} <br>
-                Nota 3: ${nota3[index]} <br>
-                `
+        if (lista.length == 0) {
+            alert("Nenhum aluno cadastrado ainda!");
+            return;
+        }
+
+        var pesquisa = prompt("Informe o nome completo do Aluno para pesquisa:");
+
+        if (!pesquisa) {
+            div_msg.innerHTML = `Pesquisa cancelada.`;
+            return;
+        }
+
+        var alunoEncontrado = null;
+
+            for (var i = 0; i < lista.length; i++) {
+            if (lista[i].nome.toLowerCase().includes(pesquisa.toLowerCase())) {
+                alunoEncontrado = lista[i];
+                break;
             }
+        }
 
+        if (alunoEncontrado) {
+            var mediaFinal = (Number(alunoEncontrado.nota1) + Number(alunoEncontrado.nota2) + Number(alunoEncontrado.nota3)) / 3;
+
+            div_msg.innerHTML = `
+                <h3>Registro do Aluno: ${alunoEncontrado.nome}</h3>
+                <ul>
+                    <li>Nome: ${alunoEncontrado.nome}</li>
+                    <li>Nota 1: ${alunoEncontrado.nota1}</li>
+                    <li>Nota 2: ${alunoEncontrado.nota2}</li>
+                    <li>Nota 3: ${alunoEncontrado.nota3}</li>
+                    <li>Média Final: ${mediaFinal.toFixed(2)}</li>
+                </ul>
+            `;
+        } else {
+            div_msg.innerHTML = `Aluno "${pesquisa}" não encontrado nos registros.`;
         }
     }
-
-
 </script>
