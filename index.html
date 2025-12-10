@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    Informe o nome do Aluno: <input id="iptNome"><br>
+    Informe o nome do Aluno: <input id="ipt_nomeAluno"><br>
     Informe a 1° nota do aluno: <input id="iptNota1"><br>
     Informe a 2° nota do aluno: <input id="iptNota2"><br>
     Informe a 3° nota do aluno: <input id="iptNota3"><br>
@@ -22,7 +22,7 @@
     <button onclick="cadastrar()">Cadastrar</button>
     <button onclick="media()">Média</button>
     <button onclick="notas()">Notas**</button>
-    <div id="div"></div>
+    <div id="div_msg"></div>
 </body>
 
 </html>
@@ -31,24 +31,20 @@
 
     // FUNÇÃO DO JUAN
 
+    var_nome_aluno = {
+        "nome": ``,
+        "nota1": `0`,
+        "nota2": `0`,
+        "nota3": `0`,
+    }
+
     function cadastrar() {
 
 
         var nomeAluno = ipt_nomeAluno.value;
-        var nota1 = Number(ipt_nota1.value);
-        var nota2 = Number(ipt_nota2.value);
-        var nota3 = Number(ipt_nota3.value);
-
-        var_nome_aluno = {
-            "nome": `${nomeAluno}`,
-            "nota1": `${nota1}`,
-            "nota2": `${nota2}`,
-            "nota3": `${nota3}`,
-        }
-
-
-
-
+        var nota1 = Number(iptNota1.value);
+        var nota2 = Number(iptNota2.value);
+        var nota3 = Number(iptNota3.value);
 
         var mensagem = '';
 
@@ -56,15 +52,15 @@
             mensagem += `O campo nome do aluno não pode ser vazio e deve conter ao menos 9 caracteres<br>`
         }
 
-        if (!(ipt_nota1.value >= 0)) {
+        if (!(iptNota1.value >= 0)) {
             mensagem += `O campo nota 1 aceita somente valores numéricos e maior ou igual a zero<br>`
         }
 
-        if (!(ipt_nota2.value >= 0)) {
+        if (!(iptNota2.value >= 0)) {
             mensagem += `O campo nota 2 aceita somente valores numéricos e maior ou igual a zero<br>`
         }
 
-        if (!(ipt_nota3.value >= 0)) {
+        if (!(iptNota3.value >= 0)) {
             mensagem += `O campo nota 3 aceita somente valores numéricos e maior ou igual a zero<br>`
         }
 
@@ -76,8 +72,8 @@
 
             var achou = false;
 
-            for (var i = 0; i < vt_nome_de_aluno.length; i++) {
-                if (vt_nome_de_aluno[i] == nomeAluno) {
+            for (var i = 0; i < var_nome_aluno.length; i++) {
+                if (var_nome_aluno[i] == nomeAluno) {
                     achou = true;
                     alert('Já existe um aluno com este Cadastro!')
                     break;
@@ -86,10 +82,13 @@
             }
 
             if (achou == false) {
-                vt_nome_de_aluno.push(ipt_nomeAluno.value);
-                vt_nota1.push(ipt_nota1.value);
-                vt_nota2.push(ipt_nota2.value);
-                vt_nota3.push(ipt_nota3.value);
+
+                var_nome_aluno = {
+                    "nome": `${nomeAluno}`,
+                    "nota1": `${nota1}`,
+                    "nota2": `${nota2}`,
+                    "nota3": `${nota3}`,
+                }
 
                 alert('Aluno novo Cadastrado!')
 
