@@ -27,51 +27,75 @@
 
 </html>
 <script>
-    let nomeV = []
-    let nota1V = []
-    let nota2V = []
-    let nota3V = []
-    var erro = false;
 
+
+
+
+   var vt_nome_de_aluno = [];
+    var vt_nota1 = [];
+    var vt_nota2 = [];
+    var vt_nota3 = [];
+
+    // FUNÇÃO DO JUAN
 
     function cadastrar() {
-        var nome = iptNome.value;
-        var nota1 = Number(iptNota1.value);
-        var nota2 = Number(iptNota2.value);
-        var nota3 = Number(iptNota3.value);
 
-        div.innerHTML = ''
-        if (nome == '' || nome.lenght < 9) {
-            alert("Informe um valor válido para o nome!")
-            erro = true;
-        }
-        if (nomeV.includes(nome)) {
-            alert("Não é possível cadastrar o mesmo nome mais de uma vez!")
-            erro = true;
-            return;
-        }
-        if (nota1 < 0 && nota1 > 10) {
-            alert("Nota precisa ser entre 0 e 10")
-            erro = true;
-        }
-        if (nota2 < 0 && nota2 > 10) {
-            alert("Nota precisa ser entre 0 e 10")
-            erro = true;
-        }
-        if (nota3 < 0 && nota3 > 10) {
-            alert("Nota precisa ser entre 0 e 10")
-            erro = true;
+
+        var nomeAluno = ipt_nomeAluno.value;
+        var nota1 = Number(ipt_nota1.value);
+        var nota2 = Number(ipt_nota2.value);
+        var nota3 = Number(ipt_nota3.value);
+
+        var mensagem = '';
+
+        if (ipt_nomeAluno.value == '' || ipt_nomeAluno.value.length < 9) {
+            mensagem += `O campo nome do aluno não pode ser vazio e deve conter ao menos 9 caracteres<br>`
         }
 
-        nomeV.push(nome);
-        nota1V.push(nota1);
-        nota2V.push(nota2);
-        nota3V.push(nota3);
+        if (!(ipt_nota1.value >= 0)) {
+            mensagem += `O campo nota 1 aceita somente valores numéricos e maior ou igual a zero<br>`
+        }
 
-        div.innerHTML = `Aluno Cadastrado com sucesso!`
+        if (!(ipt_nota2.value >= 0)) {
+            mensagem += `O campo nota 2 aceita somente valores numéricos e maior ou igual a zero<br>`
+        }
 
+        if (!(ipt_nota3.value >= 0)) {
+            mensagem += `O campo nota 3 aceita somente valores numéricos e maior ou igual a zero<br>`
+        }
+
+        if (mensagem != '') {
+            div_msg.innerHTML = mensagem
+
+        } else {
+            div_msg.innerHTML = '';
+
+            var achou = false;
+
+            for (var i = 0; i < vt_nome_de_aluno.length; i++) {
+                if (vt_nome_de_aluno[i] == nomeAluno) {
+                    achou = true;
+                    alert('Já existe um aluno com este Cadastro!')
+                    break;
+                }
+
+            }
+
+            if (achou == false) {
+                vt_nome_de_aluno.push(ipt_nomeAluno.value);
+                vt_nota1.push(ipt_nota1.value);
+                vt_nota2.push(ipt_nota2.value);
+                vt_nota3.push(ipt_nota3.value);
+
+                alert('Aluno novo Cadastrado!')
+
+            }
+
+        }
 
     }
+
+
 
     function listar() {
         div.innerHTML = ''
@@ -105,7 +129,7 @@
 
         for (let index = 0; index < nomeV.length; index++) {
             if (pesquisa.includes(nomeV)) {
-                    div.innerHTML = `
+                div.innerHTML = `
                 Registros do Aluno:${pesquisa} <br>
                 Nome: ${pesquisa.value} <br>
                 Nota 1: ${nota1[index]} <br>
