@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    Informe o nome do Aluno: <input id="iptNome"><br>
+    Informe a 1° nota do aluno: <input id="iptNota1"><br>
+    Informe a 2° nota do aluno: <input id="iptNota2"><br>
+    Informe a 3° nota do aluno: <input id="iptNota3"><br>
+    Informe a meneira de listagem <select id="selLista">
+        <option value="#"></option>
+        <option value="1">Listagem de trás pra frente</option>
+        <option value="2">Listagem de frente pra trás</option>
+    </select><br>
+    <button onclick="listar()">Listar</button>
+    <button onclick="aluno()">Aluno</button>
+    <button onclick="cadastrar()">Cadastrar</button>
+    <button onclick="media()">Média</button>
+    <button onclick="notas()">Notas**</button>
+    <div id="div"></div>
+</body>
+
+</html>
+<script>
+    let nomeV = []
+    let nota1V = []
+    let nota2V = []
+    let nota3V = []
+    var erro = false;
+
+
+    function cadastrar() {
+        var nome = iptNome.value;
+        var nota1 = Number(iptNota1.value);
+        var nota2 = Number(iptNota2.value);
+        var nota3 = Number(iptNota3.value);
+
+        div.innerHTML = ''
+        if (nome == '' || nome.lenght < 9) {
+            alert("Informe um valor válido para o nome!")
+            erro = true;
+        }
+        if (nomeV.includes(nome)) {
+            alert("Não é possível cadastrar o mesmo nome mais de uma vez!")
+            erro = true;
+            return;
+        }
+        if (nota1 < 0 && nota1 > 10) {
+            alert("Nota precisa ser entre 0 e 10")
+            erro = true;
+        }
+        if (nota2 < 0 && nota2 > 10) {
+            alert("Nota precisa ser entre 0 e 10")
+            erro = true;
+        }
+        if (nota3 < 0 && nota3 > 10) {
+            alert("Nota precisa ser entre 0 e 10")
+            erro = true;
+        }
+
+        nomeV.push(nome);
+        nota1V.push(nota1);
+        nota2V.push(nota2);
+        nota3V.push(nota3);
+
+        div.innerHTML = `Aluno Cadastrado com sucesso!`
+
+
+    }
+
+    function listar() {
+        div.innerHTML = ''
+        if (erro != true) {
+            var lista = Number(selLista.value);
+
+            if (lista == '') {
+                alert("Informe um valor para listagem")
+            }
+
+
+            if (lista == 1) {
+                for (let i = nomeV.length; i >= 0; i--) {
+                    div.innerHTML += `<br>${nomeV[i - 1]}`
+                }
+
+            } if (lista == 2) {
+                for (let i = 0; i < nomeV.length; i++) {
+                    div.innerHTML += `<br>${nomeV[i]}`
+                }
+            }
+
+        } else {
+            alert("valores invalidos")
+        }
+    }
+    function aluno() {
+        div.innerHTML = ''
+        var pesquisa = prompt("Informe o nome do Aluno para pesquisa")
+        var j;
+
+        for (let index = 0; index < nomeV.length; index++) {
+            if (pesquisa.includes(nomeV)) {
+                    div.innerHTML = `
+                Registros do Aluno:${pesquisa} <br>
+                Nome: ${pesquisa.value} <br>
+                Nota 1: ${nota1[index]} <br>
+                Nota 2: ${nota2[index]} <br>
+                Nota 3: ${nota3[index]} <br>
+                `
+            }
+
+        }
+    }
+
+
+</script>
