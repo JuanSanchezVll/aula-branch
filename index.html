@@ -30,13 +30,6 @@
 <script>
 
 
-
-
-   var vt_nome_de_aluno = [];
-    var vt_nota1 = [];
-    var vt_nota2 = [];
-    var vt_nota3 = [];
-
     // FUNÇÃO DO JUAN
 
     function cadastrar() {
@@ -46,6 +39,17 @@
         var nota1 = Number(ipt_nota1.value);
         var nota2 = Number(ipt_nota2.value);
         var nota3 = Number(ipt_nota3.value);
+
+        var_nome_aluno = {
+            "nome": `${nomeAluno}`,
+            "nota1": `${nota1}`,
+            "nota2": `${nota2}`,
+            "nota3": `${nota3}`,
+        }
+
+
+
+
 
         var mensagem = '';
 
