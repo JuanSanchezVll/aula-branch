@@ -138,6 +138,7 @@
             alert("valores invalidos")
         }
     }
+
     function aluno() {
         div_msg.innerHTML = '';
 
@@ -179,4 +180,52 @@
             div_msg.innerHTML = `Aluno "${pesquisa}" não encontrado nos registros.`;
         }
     }
+
+   function media() {
+        div_msg.innerHTML = '';
+
+        if (lista.length === 0) {
+            div_msg.innerHTML = "Nenhum aluno cadastrado para calcular médias.";
+            return;
+        }
+
+        var escolha = prompt("Você quer encontrar a MAIOR média ou a MENOR média geral?");
+        var tipoBusca = escolha ? escolha.toUpperCase() : ''; 
+
+        if (tipoBusca !== "MAIOR" && tipoBusca !== "MENOR") {
+            div_msg.innerHTML = "Entrada inválida. Digite 'MAIOR' ou 'MENOR' corretamente.";
+            return;
+        }
+        var alunoResultado = null;
+        var  mediaResultado = (tipoBusca === "MAIOR") ? -1 : 999;
+
+        for (var i = 0; i < lista.length; i++) {
+            var  alunoAtual = lista[i];
+            var mediaAtual = (Number(alunoAtual.nota1) + Number(alunoAtual.nota2) + Number(alunoAtual.nota3)) / 3;
+
+            if (tipoBusca === "MAIOR") {
+                if (mediaAtual > mediaResultado) {
+                    mediaResultado = mediaAtual;
+                    alunoResultado = alunoAtual;
+                }
+            } else if (tipoBusca === "MENOR") {
+                if (mediaAtual < mediaResultado) {
+                    mediaResultado = mediaAtual;
+                    alunoResultado = alunoAtual;
+                }
+            }
+        }
+        if (alunoResultado) {
+            div_msg.innerHTML = `
+                <h3>Aluno com a ${tipoBusca} média geral</h3>
+                <p>Nome: ${alunoResultado.nome}</p>
+                <p>Média: ${mediaResultado.toFixed(2)}</p>
+            `;
+        } else {
+            div_msg.innerHTML = "Ocorreu um erro ao processar os dados.";
+        }
+    }
+
+
+
 </script>
