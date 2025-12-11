@@ -4,25 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Prof. Alice</title>
 </head>
 
 <body>
+
+    <h2>Cadastro de notas da Prof. Alice</h2>
+
     Informe o nome do Aluno: <input id="ipt_nomeAluno"><br>
-    Informe a 1° nota do aluno: <input id="iptNota1"><br>
-    Informe a 2° nota do aluno: <input id="iptNota2"><br>
-    Informe a 3° nota do aluno: <input id="iptNota3"><br>
+    Informe a 1° nota do aluno: <input id="iptNota1" type="number"><br>
+    Informe a 2° nota do aluno: <input id="iptNota2" type="number"><br>
+    Informe a 3° nota do aluno: <input id="iptNota3" type="number"><br><br>
     Informe a meneira de listagem <select id="selLista">
         <option value="#"></option>
         <option value="1">Listagem de trás pra frente</option>
         <option value="2">Listagem de frente pra trás</option>
     </select><br>
+
+    <h2>Botões</h2>
     <button onclick="listar()">Listar</button>
     <button onclick="aluno()">Aluno</button>
     <button onclick="cadastrar()">Cadastrar</button>
     <button onclick="media()">Média</button>
-    <button onclick="notas()">Notas**</button>
+    <button onclick="notas()">Notas**</button><br><br>
     <div id="div_msg"></div>
+
 </body>
 
 </html>
@@ -31,12 +37,17 @@
 
     // FUNÇÃO DO JUAN
 
-    var_nome_aluno = {
+    var var_nome_aluno = {
         "nome": ``,
         "nota1": `0`,
         "nota2": `0`,
         "nota3": `0`,
     }
+
+    var lista = []
+
+    // var listaALUNO = []
+    // listaALUNO.push(var_nome_aluno)
 
     function cadastrar() {
 
@@ -72,8 +83,8 @@
 
             var achou = false;
 
-            for (var i = 0; i < var_nome_aluno.length; i++) {
-                if (var_nome_aluno[i] == nomeAluno) {
+            for (var i = 0; i < lista.length; i++) {
+                if (lista[i].nome == nomeAluno) {
                     achou = true;
                     alert('Já existe um aluno com este Cadastro!')
                     break;
@@ -90,6 +101,8 @@
                     "nota3": `${nota3}`,
                 }
 
+                lista.push(var_nome_aluno)
+
                 alert('Aluno novo Cadastrado!')
 
             }
@@ -101,48 +114,166 @@
 
 
     function listar() {
-        div.innerHTML = ''
-        if (erro != true) {
-            var lista = Number(selLista.value);
+        div_msg.innerHTML = ''
+        if (lista.length != 0) {
+            if (selLista.value == 1 || selLista.value == '#') {
 
-            if (lista == '') {
-                alert("Informe um valor para listagem")
-            }
+                for (let i = 0; i < lista.length; i++) {
+                    const element_nome = lista[i].nome;
+                    const element_nota1 = Number(lista[i].nota1);
+                    const element_nota2 = Number(lista[i].nota2);
+                    const element_nota3 = Number(lista[i].nota3);
+                    div_msg.innerHTML += `Aluno: ${element_nome} – N1: ${element_nota1} – N2: ${element_nota2} – N3: ${element_nota3} – Média: ${medium} – de traz para frente <br><br>`
 
 
-            if (lista == 1) {
-                for (let i = nomeV.length; i >= 0; i--) {
-                    div.innerHTML += `<br>${nomeV[i - 1]}`
                 }
+            } else {
 
-            } if (lista == 2) {
-                for (let i = 0; i < nomeV.length; i++) {
-                    div.innerHTML += `<br>${nomeV[i]}`
+                for (let i = lista.length - 1; i >= 0; i--) {
+                    const element_nome = lista[i].nome;
+                    const element_nota1 = Number(lista[i].nota1);
+                    const element_nota2 = Number(lista[i].nota2);
+                    const element_nota3 = Number(lista[i].nota3);
+                    var medium = (element_nota1 + element_nota2 + element_nota3) / 3;
+                    div_msg.innerHTML += `${element_nome} <br> ${element_nota1} <br> ${element_nota2}
+                    <br> ${element_nota3} <br>
+                    Aluno: ${element_nome} – N1: ${element_nota1} – N2: ${element_nota2} – N3: ${element_nota3} – Média: ${medium} – de traz para frente
+                     <br><br>`
+
                 }
             }
-
-        } else {
-            alert("valores invalidos")
-        }
+        } else
+            alert("Nenhum aluno cadastrado!")
     }
+
     function aluno() {
-        div.innerHTML = ''
-        var pesquisa = prompt("Informe o nome do Aluno para pesquisa")
-        var j;
+        div_msg.innerHTML = '';
 
-        for (let index = 0; index < nomeV.length; index++) {
-            if (pesquisa.includes(nomeV)) {
-                div.innerHTML = `
-                Registros do Aluno:${pesquisa} <br>
-                Nome: ${pesquisa.value} <br>
-                Nota 1: ${nota1[index]} <br>
-                Nota 2: ${nota2[index]} <br>
-                Nota 3: ${nota3[index]} <br>
-                `
+        if (lista.length == 0) {
+            alert("Nenhum aluno cadastrado ainda!");
+            return;
+        }
+
+        var pesquisa = prompt("Informe o nome completo do Aluno para pesquisa:");
+
+        if (!pesquisa) {
+            div_msg.innerHTML = `Pesquisa cancelada.`;
+            return;
+        }
+
+        var alunoEncontrado = null;
+
+        for (var i = 0; i < lista.length; i++) {
+            if (lista[i].nome.toLowerCase().includes(pesquisa.toLowerCase())) {
+                alunoEncontrado = lista[i];
+                break;
             }
+        }
 
+        if (alunoEncontrado) {
+            var mediaFinal = (Number(alunoEncontrado.nota1) + Number(alunoEncontrado.nota2) + Number(alunoEncontrado.nota3)) / 3;
+
+            div_msg.innerHTML = `
+                <h3>Registro do Aluno: ${alunoEncontrado.nome}</h3>
+                <ul>
+                    <li>Nome: ${alunoEncontrado.nome}</li>
+                    <li>Nota 1: ${alunoEncontrado.nota1}</li>
+                    <li>Nota 2: ${alunoEncontrado.nota2}</li>
+                    <li>Nota 3: ${alunoEncontrado.nota3}</li>
+                    <li>Média Final: ${mediaFinal.toFixed(2)}</li>
+                </ul>
+            `;
+        } else {
+            div_msg.innerHTML = `Aluno "${pesquisa}" não encontrado nos registros.`;
         }
     }
+
+    function media() {
+        div_msg.innerHTML = '';
+
+        if (lista.length === 0) {
+            div_msg.innerHTML = "Nenhum aluno cadastrado para calcular médias.";
+            return;
+        }
+
+        var escolha = prompt("Você quer encontrar a MAIOR média ou a MENOR média geral?");
+        var tipoBusca = escolha ? escolha.toUpperCase() : '';
+
+        if (tipoBusca !== "MAIOR" && tipoBusca !== "MENOR") {
+            div_msg.innerHTML = "Entrada inválida. Digite 'MAIOR' ou 'MENOR' corretamente.";
+            return;
+        }
+        var alunoResultado = null;
+        var mediaResultado = (tipoBusca === "MAIOR") ? -1 : 999;
+
+        for (var i = 0; i < lista.length; i++) {
+            var alunoAtual = lista[i];
+            var mediaAtual = (Number(alunoAtual.nota1) + Number(alunoAtual.nota2) + Number(alunoAtual.nota3)) / 3;
+
+            if (tipoBusca === "MAIOR") {
+                if (mediaAtual > mediaResultado) {
+                    mediaResultado = mediaAtual;
+                    alunoResultado = alunoAtual;
+                }
+            } else if (tipoBusca === "MENOR") {
+                if (mediaAtual < mediaResultado) {
+                    mediaResultado = mediaAtual;
+                    alunoResultado = alunoAtual;
+                }
+            }
+        }
+        if (alunoResultado) {
+            div_msg.innerHTML = `
+                <h3>Aluno com a ${tipoBusca} média geral</h3>
+                <p>Nome: ${alunoResultado.nome}</p>
+                <p>Média: ${mediaResultado.toFixed(2)}</p>
+            `;
+        } else {
+            div_msg.innerHTML = "Ocorreu um erro ao processar os dados.";
+        }
+    }
+
+    function notas() {
+        div_msg.innerHTML = ""
+
+        if (lista.length == 0) {
+            div_msg.innerHTML = "Nenhum aluno cadastrado"
+            return
+        }
+
+        var limiteInformado = prompt("Informe a nota limite")
+
+        var encontrou = false
+
+        for (var i = 0; i < lista.length; i++) {
+
+            var nota1 = Number(lista[i].nota1)
+            var nota2 = Number(lista[i].nota2)
+            var nota3 = Number(lista[i].nota3)
+
+            if (nota1 > limiteInformado || nota2 > limiteInformado || nota3 > limiteInformado) {
+
+                var mediaFinal = (nota1 + nota2 + nota3) / 3
+
+                div_msg.innerHTML += `
+            Aluno: ${lista[i].nome}
+            N1: ${nota1}
+            N2: ${nota2}
+            N3: ${nota3}
+            Média: ${mediaFinal}
+            Nota Maior que ${limiteInformado} 
+            <br><br>
+            `
+
+                encontrou = true
+            }
+        }
+
+        if (encontrou == false) {
+            div_msg.innerHTML = `Nenhuma nota maior que ${limiteInformado}`
+        }
+    }
+
 
 
 </script>
