@@ -114,29 +114,36 @@
 
 
     function listar() {
-        div.innerHTML = ''
-        if (erro != true) {
-            var lista = Number(selLista.value);
+        div_msg.innerHTML = ''
+        if (lista.length != 0) {
+            if (selLista.value == 1 || selLista.value == '#') {
 
-            if (lista == '') {
-                alert("Informe um valor para listagem")
-            }
+                for (let i = 0; i < lista.length; i++) {
+                    const element_nome = lista[i].nome;
+                    const element_nota1 = Number(lista[i].nota1);
+                    const element_nota2 = Number(lista[i].nota2);
+                    const element_nota3 = Number(lista[i].nota3);
+                    div_msg.innerHTML += `Aluno: ${element_nome} – N1: ${element_nota1} – N2: ${element_nota2} – N3: ${element_nota3} – Média: ${medium} – de traz para frente <br><br>`
 
 
-            if (lista == 1) {
-                for (let i = nomeV.length; i >= 0; i--) {
-                    div.innerHTML += `<br>${nomeV[i - 1]}`
                 }
+            } else {
 
-            } if (lista == 2) {
-                for (let i = 0; i < nomeV.length; i++) {
-                    div.innerHTML += `<br>${nomeV[i]}`
+                for (let i = lista.length - 1; i >= 0; i--) {
+                    const element_nome = lista[i].nome;
+                    const element_nota1 = Number(lista[i].nota1);
+                    const element_nota2 = Number(lista[i].nota2);
+                    const element_nota3 = Number(lista[i].nota3);
+                    var medium = (element_nota1 + element_nota2 + element_nota3) / 3;
+                    div_msg.innerHTML += `${element_nome} <br> ${element_nota1} <br> ${element_nota2}
+                    <br> ${element_nota3} <br>
+                    Aluno: ${element_nome} – N1: ${element_nota1} – N2: ${element_nota2} – N3: ${element_nota3} – Média: ${medium} – de traz para frente
+                     <br><br>`
+
                 }
             }
-
-        } else {
-            alert("valores invalidos")
-        }
+        } else
+            alert("Nenhum aluno cadastrado!")
     }
 
     function aluno() {
@@ -181,7 +188,7 @@
         }
     }
 
-   function media() {
+    function media() {
         div_msg.innerHTML = '';
 
         if (lista.length === 0) {
@@ -190,17 +197,17 @@
         }
 
         var escolha = prompt("Você quer encontrar a MAIOR média ou a MENOR média geral?");
-        var tipoBusca = escolha ? escolha.toUpperCase() : ''; 
+        var tipoBusca = escolha ? escolha.toUpperCase() : '';
 
         if (tipoBusca !== "MAIOR" && tipoBusca !== "MENOR") {
             div_msg.innerHTML = "Entrada inválida. Digite 'MAIOR' ou 'MENOR' corretamente.";
             return;
         }
         var alunoResultado = null;
-        var  mediaResultado = (tipoBusca === "MAIOR") ? -1 : 999;
+        var mediaResultado = (tipoBusca === "MAIOR") ? -1 : 999;
 
         for (var i = 0; i < lista.length; i++) {
-            var  alunoAtual = lista[i];
+            var alunoAtual = lista[i];
             var mediaAtual = (Number(alunoAtual.nota1) + Number(alunoAtual.nota2) + Number(alunoAtual.nota3)) / 3;
 
             if (tipoBusca === "MAIOR") {
@@ -225,5 +232,48 @@
             div_msg.innerHTML = "Ocorreu um erro ao processar os dados.";
         }
     }
+
+    function notas() {
+        div_msg.innerHTML = ""
+
+        if (lista.length == 0) {
+            div_msg.innerHTML = "Nenhum aluno cadastrado"
+            return
+        }
+
+        var limiteInformado = prompt("Informe a nota limite")
+
+        var encontrou = false
+
+        for (var i = 0; i < lista.length; i++) {
+
+            var nota1 = Number(lista[i].nota1)
+            var nota2 = Number(lista[i].nota2)
+            var nota3 = Number(lista[i].nota3)
+
+            if (nota1 > limiteInformado || nota2 > limiteInformado || nota3 > limiteInformado) {
+
+                var mediaFinal = (nota1 + nota2 + nota3) / 3
+
+                div_msg.innerHTML += `
+            Aluno: ${lista[i].nome}
+            N1: ${nota1}
+            N2: ${nota2}
+            N3: ${nota3}
+            Média: ${mediaFinal}
+            Nota Maior que ${limiteInformado} 
+            <br><br>
+            `
+
+                encontrou = true
+            }
+        }
+
+        if (encontrou == false) {
+            div_msg.innerHTML = `Nenhuma nota maior que ${limiteInformado}`
+        }
+    }
+
+
 
 </script>
