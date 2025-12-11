@@ -233,6 +233,48 @@
         }
     }
 
+    function notas() {
+    div_msg.innerHTML = ""
+
+    if (lista.length == 0) {
+        div_msg.innerHTML = "Nenhum aluno cadastrado"
+        return
+    }
+
+    var limiteInformado = prompt("Informe a nota limite")
+
+    var encontrou = false
+
+    for (var i = 0; i < lista.length; i++) {
+
+        var nota1 = Number(lista[i].nota1)
+        var nota2 = Number(lista[i].nota2)
+        var nota3 = Number(lista[i].nota3)
+
+        if (nota1 > limiteInformado || nota2 > limiteInformado || nota3 > limiteInformado) {
+
+            var mediaFinal = (nota1 + nota2 + nota3) / 3
+
+            div_msg.innerHTML += `
+            Aluno: ${lista[i].nome}
+            N1: ${nota1}
+            N2: ${nota2}
+            N3: ${nota3}
+            Média: ${mediaFinal}
+            Nota Maior que ${limiteInformado} 
+            <br><br>
+            `
+
+            encontrou = true
+        }
+    }
+
+    if (encontrou == false) {
+        div_msg.innerHTML = `Nenhuma nota maior que ${limiteInformado}`
+    }
+}
+
+
 
 
 </script>
